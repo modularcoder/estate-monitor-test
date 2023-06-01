@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+
+// Rates
+model Rate {
+  id   Int      @id @default(autoincrement())
+  date DateTime @unique @db.Date
+  usd Float
+
+  @@index(date(sort: Desc))
+}
+
+enum ListingSource {
+  LISTAM
+}
+
+enum ListingType {
+  SELL
+  RENT
+}
+
+enum BuildingType {
+  STONE
+  PANEL
+  MONOLITH
+}
+
+enum RenovationType {
+  ZERO
+  OLD
+  LIGHT
+  AVERAGE
+  MODERN
+  ADVANCED
+}
+
+enum City {
+  YEREVAN
+}
+
+enum District {
+  // Yerevan
+  AJAPNYAK
+  ARABKIR
+  AVAN
+  DAVITASHEN
+  EREBUNI
+  QANAQER
+  KENTRON
+  MALATIA
+  NORQ
+  SHENGAVIT
+  NORQMARASH
+  NUBARASHEN
+}
+
+
+model ListingApartment {
+  id         Int      @id @default(autoincrement())
+  source     ListingSource
+  type       ListingType
+  extId      String   @db.VarChar(255)
+  extUrl     String   @db.VarChar(255)
+
+  city       City
+  district   District
+  address    String?     @db.VarChar(255)
+
+  buildingType BuildingType?
+  renovationType RenovationType?
+  isNewDevelopment Boolean?
+
+  statNoRooms Int
+  statArea    Float
+  statPriceAmd Float
+  statPriceUsd Float
+  statPricePerMeterAmd Float
+  statPricePerMeterUsd Float
+  statExchangeRate Float
+  statBuildingFloors Int
+  statFloor Int
+  statFloorIsLast Boolean? @default(false)
+  statFloorIsFirst Boolean? @default(false)
+
+  meta  Json?
+
+  rawPrice   String?   @db.VarChar(255)
+  rawTitle   String?   @db.VarChar(255)
+  rawMeta    String?   @db.VarChar(255)
+  rawExcerpt String?
+  rawContent String?
+
+  date DateTime @default(now())
+  isProcessed Boolean? @default(false)
+  isUnavailable Boolean? @default(false)
+  extUpdatedAt DateTime?
+  extCreatedAt DateTime?
+  updatedAt DateTime    @updatedAt
+  createdAt DateTime    @default(now())
+
+
+  @@index([district])
+  @@index([isNewDevelopment])
+  @@index([statNoRooms])
+  @@index([statPricePerMeterAmd])
+  @@index([statPricePerMeterUsd])
+  @@index([statBuildingFloors])
+  @@index([statFloor])
+  @@index([statFloorIsLast])
+  @@index([statFloorIsFirst])
+
+  @@index([type])
+  @@index([extId])
+  @@index([extId, createdAt(sort: Desc)])
+}
+
+
+
