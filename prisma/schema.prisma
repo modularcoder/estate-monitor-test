@@ -122,6 +122,8 @@ model ListingApartment {
 
   @@index([type])
   @@index([extId])
+  @@index([createdAt])
+  @@index([updatedAt])
   @@index([extId, createdAt(sort: Desc)])
 }
 
