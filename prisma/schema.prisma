@@ -2,22 +2,21 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["views"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
-
 
 // Rates
 model Rate {
   id   Int      @id @default(autoincrement())
   date DateTime @unique @db.Date
-  usd Float
+  usd  Float
 
   @@index(date(sort: Desc))
 }
@@ -66,50 +65,48 @@ enum District {
   NUBARASHEN
 }
 
-
 model ListingApartment {
-  id         Int      @id @default(autoincrement())
-  source     ListingSource
-  type       ListingType
-  extId      String   @db.VarChar(255)
-  extUrl     String   @db.VarChar(255)
+  id     Int           @id @default(autoincrement())
+  source ListingSource
+  type   ListingType
+  extId  String        @db.VarChar(255)
+  extUrl String        @db.VarChar(255)
 
-  city       City
-  district   District
-  address    String?     @db.VarChar(255)
+  city     City
+  district District
+  address  String?  @db.VarChar(255)
 
-  buildingType BuildingType?
-  renovationType RenovationType?
+  buildingType     BuildingType?
+  renovationType   RenovationType?
   isNewDevelopment Boolean?
 
-  statNoRooms Int
-  statArea    Float
-  statPriceAmd Float
-  statPriceUsd Float
+  statNoRooms          Int
+  statArea             Float
+  statPriceAmd         Float
+  statPriceUsd         Float
   statPricePerMeterAmd Float
   statPricePerMeterUsd Float
-  statExchangeRate Float
-  statBuildingFloors Int
-  statFloor Int
-  statFloorIsLast Boolean? @default(false)
-  statFloorIsFirst Boolean? @default(false)
+  statExchangeRate     Float
+  statBuildingFloors   Int
+  statFloor            Int
+  statFloorIsLast      Boolean? @default(false)
+  statFloorIsFirst     Boolean? @default(false)
 
-  meta  Json?
+  meta Json?
 
-  rawPrice   String?   @db.VarChar(255)
-  rawTitle   String?   @db.VarChar(255)
-  rawMeta    String?   @db.VarChar(255)
+  rawPrice   String? @db.VarChar(255)
+  rawTitle   String? @db.VarChar(255)
+  rawMeta    String? @db.VarChar(255)
   rawExcerpt String?
   rawContent String?
 
-  date DateTime @default(now())
-  isProcessed Boolean? @default(false)
-  isUnavailable Boolean? @default(false)
-  extUpdatedAt DateTime?
-  extCreatedAt DateTime?
-  updatedAt DateTime    @updatedAt
-  createdAt DateTime    @default(now())
-
+  date          DateTime  @default(now())
+  isProcessed   Boolean?  @default(false)
+  isUnavailable Boolean?  @default(false)
+  extUpdatedAt  DateTime?
+  extCreatedAt  DateTime?
+  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime  @default(now())
 
   @@index([district])
   @@index([isNewDevelopment])
@@ -120,7 +117,6 @@ model ListingApartment {
   @@index([statFloor])
   @@index([statFloorIsLast])
   @@index([statFloorIsFirst])
-
   @@index([type])
   @@index([extId])
   @@index([createdAt])
@@ -129,5 +125,11 @@ model ListingApartment {
   @@index([extId, createdAt(sort: Desc)])
 }
 
-
-
+// model ListingApartmentStat {
+//   id        Int           @id @default(autoincrement())
+//   source    ListingSource
+//   type      ListingType
+//   city      City
+//   district  District
+//   createdAt DateTime
+// }
