@@ -14,6 +14,8 @@ const formatPrice = (price: number) => {
   return priceRounded
 }
 
+console.log('gago');
+
 
 export default async function Home() {
 
