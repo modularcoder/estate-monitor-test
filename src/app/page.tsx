@@ -46,16 +46,19 @@ export default async function Home() {
                       <th className="py-3.5 px-4 text-left text-xs font-semibold text-gray-500">
                         Վարչական շրջան
                       </th>
-                      <th className="py-3.5 px-4 text-right text-xs font-semibold text-gray-500">
+                      <th className="py-3.5 px-4 text-right text-xs font-semibold text-gray-500 w-1/4">
                         <div>Միջին վաճառքի գին</div>
                         Դրամ/1քմ
                       </th>
-                      <th className="py-3.5 px-4 text-right text-xs font-semibold text-gray-500">
+                      <th className="py-3.5 px-4 text-right text-xs font-semibold text-gray-500 w-1/4 ">
                         <div>Միջին վարձակալության գին</div>
                         Դրամ/1քմ
                       </th>
-                      <th className="py-3.5 px-4 text-right text-xs font-semibold text-gray-500">
-                        <div>Եկամտաբերության ինդեքս</div>
+                      <th className="py-3.5 px-4 text-right text-xs font-semibold text-gray-500 ">
+                        <div>Վաճառքի հայտարարությունների քանակ</div>
+                      </th>
+                      <th className="py-3.5 px-4 text-right text-xs font-semibold text-gray-500 ">
+                        <div>Վարձակալության հայտարարությունների քանակ</div>
                       </th>
                     </tr>
                   </thead>
@@ -72,8 +75,14 @@ export default async function Home() {
                           { formatPrice(item.rentPricePerMeterAmd)} AMD
                         </td>
                         <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-500 text-right">
-                          { Math.round(10000 * (item.rentPricePerMeterAmd / item.sellPricePerMeterAmd)) / 10000}
+                          { item.countSellItems }
                         </td>
+                        <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-500 text-right">
+                          { item.countRentItems }
+                        </td>
+                        {/* <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-500 text-right">
+                          { Math.round(10000 * (item.rentPricePerMeterAmd / item.sellPricePerMeterAmd)) / 10000}
+                        </td> */}
                       </tr>
                     )))}
                   </tbody>

@@ -78,6 +78,7 @@ export async function getData() : Promise<Data> {
   let countSellItems = 0;
 
   const rentDataByDistrict = rentData.reduce((agg: { [key: string]: DataItemRent }, item) => {
+    item.countRentItems = Number(item.countRentItems)
     agg[item.district] = item
 
     countRentItems +=  Number(item.countRentItems);
@@ -86,6 +87,7 @@ export async function getData() : Promise<Data> {
   }, {})
 
   const sellDataByDistrict = sellData.reduce((agg: { [key: string]: DataItemSell }, item) => {
+    item.countSellItems = Number(item.countSellItems)
     agg[item.district] = item
 
     countSellItems += Number(item.countSellItems);
