@@ -4,12 +4,14 @@ import { prisma } from '@/db'
 
 type DataItemRent = {
   district: District,
+  countRentItems: number,
   rentPricePerMeterUsd: number,
   rentPricePerMeterAmd: number,
 }
 
 type DataItemSell = {
   district: District,
+  countSellItems: number,
   sellPricePerMeterUsd: number
   sellPricePerMeterAmd: number,
 }
@@ -19,6 +21,8 @@ type DataItem = DataItemRent & DataItemSell
 type Data = {
   startDate: Date,
   endDate: Date,
+  countRentItems: number,
+  countSellItems: number,
   items: DataItem[]
 }
 
@@ -39,6 +43,7 @@ export async function getData() : Promise<Data> {
   const rentData: DataItemRent[] = await prisma.$queryRaw`
     SELECT
       ListingApartment.district,
+      COUNT(*) as countRentItems,
       AVG(ListingApartment.statPricePerMeterUsd) as rentPricePerMeterUsd,
       AVG(ListingApartment.statPricePerMeterAmd) as rentPricePerMeterAmd
     FROM
@@ -51,9 +56,12 @@ export async function getData() : Promise<Data> {
       ListingApartment.district
     `
 
+  console.log('rendData', rentData)
+
   const sellData: DataItemSell[] = await prisma.$queryRaw`
     SELECT
       ListingApartment.district,
+      COUNT(*) as countSellItems,
       AVG(ListingApartment.statPricePerMeterUsd) as sellPricePerMeterUsd,
       AVG(ListingApartment.statPricePerMeterAmd) as sellPricePerMeterAmd
     FROM
@@ -66,14 +74,21 @@ export async function getData() : Promise<Data> {
       ListingApartment.district
     `
 
+  let countRentItems = 0;
+  let countSellItems = 0;
+
   const rentDataByDistrict = rentData.reduce((agg: { [key: string]: DataItemRent }, item) => {
     agg[item.district] = item
+
+    countRentItems +=  Number(item.countRentItems);
 
     return agg;
   }, {})
 
   const sellDataByDistrict = sellData.reduce((agg: { [key: string]: DataItemSell }, item) => {
     agg[item.district] = item
+
+    countSellItems += Number(item.countSellItems);
 
     return agg;
   }, {})
@@ -90,6 +105,8 @@ export async function getData() : Promise<Data> {
   return {
     startDate,
     endDate,
+    countRentItems,
+    countSellItems,
     items,
   } as Data
 }

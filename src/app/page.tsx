@@ -32,27 +32,29 @@ export default async function Home() {
               <h1 className="text-4xl leading-10 tracking-tight text-white mb-8">
                 Բնակարանների վաճառքի և վարձակալության միջին գները <span className="text-primary">Երևանում</span>
               </h1>
-              <h2 className="text-xl">
-                {format(data.startDate, 'dd.MM.yyyy')} - {format(data.endDate, 'dd.MM.yyyy')}
-              </h2>
+              <div className="flex flex-row justify-between">
+                <h2 className="text-xl">
+                  {format(data.startDate, 'dd.MM.yyyy')} - {format(data.endDate, 'dd.MM.yyyy')}
+                </h2>
+              </div>
             </header>
             <section className="text-white w-full">
               <div className="rounded shadow-md bg-white text-gray-600 overflow-hidden">
                 <table className="w-full text-left divide-y divide-gray-300">
                   <thead>
                     <tr>
-                      <th className="py-3.5 px-4 text-left text-sm font-semibold text-gray-900">
+                      <th className="py-3.5 px-4 text-left text-xs font-semibold text-gray-500">
                         Վարչական շրջան
                       </th>
-                      <th className="py-3.5 px-4 text-right text-sm font-semibold text-gray-900">
-                        <div>Վաճառք</div>
+                      <th className="py-3.5 px-4 text-right text-xs font-semibold text-gray-500">
+                        <div>Միջին վաճառքի գին</div>
                         Դրամ/1քմ
                       </th>
-                      <th className="py-3.5 px-4 text-right text-sm font-semibold text-gray-900">
-                        <div>Վարձակալություն</div>
+                      <th className="py-3.5 px-4 text-right text-xs font-semibold text-gray-500">
+                        <div>Միջին վարձակալության գին</div>
                         Դրամ/1քմ
                       </th>
-                      <th className="py-3.5 px-4 text-right text-sm font-semibold text-gray-900">
+                      <th className="py-3.5 px-4 text-right text-xs font-semibold text-gray-500">
                         <div>Եկամտաբերության ինդեքս</div>
                       </th>
                     </tr>
@@ -76,6 +78,11 @@ export default async function Home() {
                     )))}
                   </tbody>
                 </table>
+
+                <div className="text-xs  bg-slate-50 p-4 text-slate-400 ">
+                  {format(data.startDate, 'dd.MM.yyyy')} - {format(data.endDate, 'dd.MM.yyyy')} տվյալները
+                  հիմնված են {data.countRentItems} վարձակալության և {data.countSellItems} վաճառքի հայտարարություն վրա բաց աղբյուրներից տեղադրված այս ժամանակահատվածում
+                </div>
               </div>
             </section>
           </div>
